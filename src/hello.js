@@ -1,10 +1,7 @@
 import React from "react";
 
-export default function Hello(){
+export default function Hello(props){
     return(
-        <div>
-            <div>Hello</div>
-            <div>Hello</div>
-        </div>
+        <h1>hello, {props.name}/[{props.age}살]</h1>
     )
 }

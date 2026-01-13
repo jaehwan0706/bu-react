@@ -7,6 +7,7 @@ export default function Nav() {
         <li><a href = "/read/1">html</a></li>
         <li><a href = "/read/2">css</a></li>
         <li><a href = "/read/3">js</a></li>
+        <li><a href = "/read/4">ㅐㅔㅐㅔ</a></li>
       </ol>
     </nav>
   )

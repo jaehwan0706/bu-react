@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function Header() {
+export default function Header(props) {
+
+  console.log(props)
   return (
     <header>
-      <h1><a href = "/">WEB</a></h1>
+      <h1><a href = "/">{props.title}</a></h1>
     </header>
   )
 }
