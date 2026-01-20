@@ -4,6 +4,7 @@ import Header from "./Header.js";
 import Nav from "./Nav.js";
 import Article from "./Article.js";
 import Create from "./Create.js";
+import Update from "./Update.js";
 
 function App() {
   const [mode, setMode] = useState("WELCOME");
@@ -24,6 +25,7 @@ function App() {
   console.log(mode);
 
   let content = null;
+  let contextControl = null;
   if (mode === "WELCOME") {
     content = <Article title="Welcome" body="Hello, Web" />;
   } else if (mode === "READ") {
@@ -37,9 +39,27 @@ function App() {
     //     body = topics[i].body;
     //   }
     // }
-    //content = <Article title={title} body={body} />;
+
+    // content = <Article title={title} body={body} />;
     content = <Article title={topics[index].title} body={topics[index].body} />;
     // content = <Article title = "Welcome" body = "Hello, Read"/>
+    contextControl = <>
+      <li><a href = {'/Update' + id}  onClick = {event => {
+        event.preventDefault();
+        setMode('UPDATE');
+      }}>Update</a></li>
+      <li><input type = "button" value = "Delete" onClick = {() => {
+        const newTopic = [];
+        for(let i =0; i < topics.length; i++){
+          if(topics[i].id !== id){
+            newTopic.push(topics[i]);
+          }
+        }
+        setTopics(newTopic);
+        setMode('WELCOME');
+      }}/></li>
+    </>
+
   }else if(mode ==='CREATE'){
     //Create.js추가
       content = <Create onCreate = {
@@ -53,6 +73,22 @@ function App() {
           setId(nextId);
           setNextId(nextId +1);
         }}></Create>
+    }else if(mode === 'UPDATE'){
+      let index = topics.findIndex(
+      (topic) => topic.id === id
+      )
+      content = <Update title = {topics[index].title} body = {topics[index].body} onUpdate = {(title, body) => {
+        console.log(title, body);
+        const newTopics = [...topics]
+        const updatedTopic = {id:id, title:title, body:body};
+        for(let i =0; i < newTopics.length; i++){
+          if(newTopics[i].id === id){
+            newTopics[i] = updatedTopic;
+            break;
+          }
+        }
+        setTopics(newTopics);
+      }}></Update>
     }
 
   const handleHeader = () => {
@@ -83,11 +119,16 @@ function App() {
       {content}
       {/* <Article title = "Welcome" body = "Hello, Web"/> */}
       {/* <Article title = "Hi" body = "Hello, React"/> */}
+      <ul>
 
-      <a href = "/create" onClick = {event => {
+      <li><a href = "/create" onClick = {event => {
         event.preventDefault();
         setMode('CREATE');
-      }}>Create</a>
+      }}>Create</a></li>
+
+      {/* <li><a href = "/update">Update</a></li> */}
+      {contextControl}
+      </ul>
     </div>
   );
 }
